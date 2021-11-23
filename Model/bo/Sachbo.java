@@ -1,5 +1,6 @@
 package bo;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import bean.Sachbean;
@@ -36,4 +37,13 @@ public class Sachbo {
     			d++;
     	return d;
     }
+	public void addsach(String masach,String tensach,String tacgia,long gia,long soluong,String anh,String maloai) throws Exception {
+		sdao.addSach(masach, tensach, tacgia, gia, soluong, anh, maloai);
+	}
+	public void editSach(String masach,String tensach,String tacgia,long gia,long soluong,Timestamp ngaynhap,String anh,String maloai) throws Exception {
+		sdao.editSach(masach, tensach, tacgia, gia, soluong, ngaynhap, anh, maloai);
+	}
+	public void deleteSach(String masach) throws Exception {
+		sdao.deleteSach(masach);
+	}
 }

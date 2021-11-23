@@ -1,5 +1,9 @@
 eclipse.preferences.version=1
+encoding//Controller/Controller/addsachController.java=UTF-8
+encoding//Controller/Controller/suaqlsachController.java=UTF-8
+encoding//Controller/Controller/testupfile.java=UTF-8
 encoding//Model/dao/Giohangdao.java=UTF-8
 encoding//Model/dao/Loaidao.java=UTF-8
 encoding//Model/dao/Sachdao.java=UTF-8
+encoding//WebContent/admin.jsp=UTF-8
 encoding//WebContent/sua.jsp=UTF-8

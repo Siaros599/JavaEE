@@ -7,17 +7,13 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import bean.Khachhangbean;
+import bo.md5;
 
 
 
 public class Khachhangdao {
 	public ArrayList<Khachhangbean> getKhachHang() throws Exception{
 		ArrayList<Khachhangbean> ds= new ArrayList<Khachhangbean>();
-		ds.add(new Khachhangbean("kh01","Nguyen Van A","72 Ngo Si Lien","nva123"));
-		ds.add(new Khachhangbean("kh02","Tran Duc B","85 Nguyen Hue","tdb123"));
-		ds.add(new Khachhangbean("kh03","La Van C","12 Cao Thang","lvc123"));
-		ds.add(new Khachhangbean("kh04","Duong Thi D","50 Dang Dung","dtd123"));
-		ds.add(new Khachhangbean("kh05","Nguyen Anh K","34 Mac Dinh Chi","nak123"));
 		Connection cn;
 		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
     	System.out.println("Da xac dinh HQTCSDL");
@@ -29,7 +25,7 @@ public class Khachhangdao {
     	ResultSet rs;
     	rs=st.executeQuery("use QlSach Select * From KhachHang");
     	while(rs.next()) {
-    		ds.add(new Khachhangbean(rs.getString(6),rs.getString(2),rs.getString(3),rs.getString(7)));
+    		ds.add(new Khachhangbean(md5.getMd5(rs.getString(6)),rs.getString(2),rs.getString(3),md5.getMd5(rs.getString(7))));
     	}
     	cn.close();
 		return ds;

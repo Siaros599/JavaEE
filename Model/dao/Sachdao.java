@@ -2,8 +2,10 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import bean.Sachbean;
 
@@ -26,11 +28,69 @@ public class Sachdao {
     	ResultSet rs;
     	rs=st.executeQuery("use QlSach Select * From sach where anh is not null");
     	while(rs.next()) {
-				ds.add(new Sachbean(rs.getString(1),rs.getString(2),rs.getString(9),rs.getLong(4),rs.getLong(3),rs.getString(7),rs.getString(5)));
+				ds.add(new Sachbean(rs.getString(1),rs.getString(2),rs.getString(9),rs.getLong(4),rs.getLong(3),rs.getTimestamp(8),rs.getString(7),rs.getString(5)));
 			
     	}
     	cn.close();
 		return ds;
 	}	
-	
+	public void addSach(String masach,String tensach,String tacgia,long gia,long soluong,String anh,String maloai) throws Exception {
+		Connection cn;
+		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+    	System.out.println("Da xac dinh HQTCSDL");
+    	String url="jdbc:sqlserver://localhost:1433;databaseName=QlSach;user=sa; password=123456";
+    	cn=DriverManager.getConnection(url);
+    	System.out.println("Da ket noi");
+    	java.util.Date javaDate = new java.util.Date();
+	    long javaTime = javaDate.getTime();
+	  	Timestamp timenhap=new java.sql.Timestamp(javaTime);
+    	PreparedStatement st=cn.prepareStatement("select * from sach where masach=?");
+    	st.setString(1, masach);
+    	ResultSet rs=st.executeQuery();
+    	if(!rs.next()) {
+    		st=cn.prepareStatement("insert into sach values(?,?,?,?,?,?,?,?,?)");
+    		st.setString(1, masach);
+    		st.setString(2, tensach);
+    		st.setLong(3, soluong);
+    		st.setLong(4, gia);
+    		st.setString(5, maloai);
+    		st.setInt(6, 1);
+    		st.setString(7, anh);
+    		st.setTimestamp(8, timenhap);
+    		st.setString(9, tacgia);
+    		System.out.println(st.executeUpdate());
+    	}
+    	cn.close();
+	}
+	public void editSach(String masach,String tensach,String tacgia,long gia,long soluong,Timestamp ngaynhap,String anh,String maloai) throws Exception {
+		Connection cn;
+		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+    	System.out.println("Da xac dinh HQTCSDL");
+    	String url="jdbc:sqlserver://localhost:1433;databaseName=QlSach;user=sa; password=123456";
+    	cn=DriverManager.getConnection(url);
+    	System.out.println("Da ket noi");
+    	PreparedStatement st=cn.prepareStatement("update sach set tensach=?,soluong=?,gia=?,maloai=?,anh=?,NgayNhap=?,tacgia=? where masach=?");
+    	st.setString(1, tensach);
+    	st.setLong(2, soluong);
+    	st.setLong(3, gia);
+    	st.setString(4, maloai);
+    	st.setString(5, anh);
+    	st.setTimestamp(6, ngaynhap);
+    	st.setString(7, tacgia);
+    	st.setString(8, masach);
+    	st.executeUpdate();
+    	cn.close();
+	}
+	public void deleteSach(String masach) throws Exception {
+		Connection cn;
+		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+    	System.out.println("Da xac dinh HQTCSDL");
+    	String url="jdbc:sqlserver://localhost:1433;databaseName=QlSach;user=sa; password=123456";
+    	cn=DriverManager.getConnection(url);
+    	System.out.println("Da ket noi");
+    	PreparedStatement st=cn.prepareStatement("delete from sach where masach=?");
+    	st.setString(1, masach);
+    	st.executeUpdate();
+    	cn.close();
+	}
 }

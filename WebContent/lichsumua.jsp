@@ -156,7 +156,8 @@ th{
  		 	<%
  		 		lichsubo ls1=(lichsubo)session.getAttribute("ls");
  		 		if(ls1!=null){
- 		 		for(Giohangbo ghbo1: ls1.ghbols){
+ 		 		for(Giohangbo ghbo1: ls1.ghbols)
+ 		 		if(ghbo1.ds.size()!=0){
  		 	%>
  		 	<tr>
  		 		<td colspan="5" style="border:1px solid black">Ngày mua: <%=ghbo1.timebuy %></td>
@@ -187,7 +188,7 @@ th{
  		 	<tr><td colspan="5"></td> </tr>
 			<% } %>
 			<tr>
-				<td style="text-align:right" colspan="5">Tổng tiền chi: <%=ls1.getTongtienchi() %> VND</td>
+				<td style="text-align:right;color:red;font-weight:bold" colspan="5">Tổng tiền chi: <%=ls1.getTongtienchi() %> VND</td>
 			</tr>
 			<%} %>
         </table>

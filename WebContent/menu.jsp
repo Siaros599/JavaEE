@@ -54,6 +54,24 @@
       	<%}
       	}
      %>
+       
+     <%
+      
+      
+      //if(kh!=null){
+    %>
+      <a href="#">Xin chào: <%//kh.getHoten();%> </a>
+      <li><a href="logoutController"> Đăng xuất</a></li>
+        <!--  <% // }else { %>-->
+      <a href="#" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-log-in"></span> Đăng nhập</a></li>
+      <li><a href="#" data-toggle="modal" data-target="#myModal2"><span class="glyphicon glyphicon-user"></span> Đăng ký</a></li>
+      <%if(session.getAttribute("tb")!=null){
+		        	   //out.print("<script>alert('"+session.getAttribute("tb")+"');</script>" );
+		        	   
+      }
+      	//}
+     %>
+ 
     </ul>
   </div>
 </nav>

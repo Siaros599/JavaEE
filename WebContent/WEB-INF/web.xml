@@ -9,4 +9,16 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <display-name>captcha</display-name>
+	<servlet>
+	<servlet-name>SimpleCaptcha</servlet-name>
+	<servlet-class>nl.captcha.servlet.SimpleCaptchaServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	<servlet-name>SimpleCaptcha</servlet-name>
+	<url-pattern>/simpleCaptcha.jpg</url-pattern>
+	</servlet-mapping>
+	<welcome-file-list>
+	<welcome-file>simpleCaptcha.jsp</welcome-file>
+	</welcome-file-list>
 </web-app>

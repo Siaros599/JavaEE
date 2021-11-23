@@ -35,7 +35,7 @@ public class Giohangdao {
     		st=cn.prepareStatement("insert into hoadon values(?,?,?,?)");
     		st.setInt(1, makh);
     		st.setTimestamp(2, gh.timebuy);
-    		st.setBoolean(3, true);
+    		st.setBoolean(3, false);
     		st.setLong(4, gh.Tongtien());
     		st.executeUpdate();
     		st=cn.prepareStatement("select * from hoadon where NgayMua=?");
@@ -49,7 +49,7 @@ public class Giohangdao {
     				st.setString(1, i.getMasach());
     				st.setLong(2, i.getSlmua());
     				st.setInt(3, mahd);
-    				st.setBoolean(4, true);
+    				st.setBoolean(4, false);
     				st.executeUpdate();
     			}
     		}

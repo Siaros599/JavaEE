@@ -8,24 +8,20 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import bean.Khachhangbean;
-import bo.Giohangbo;
-
-
+import bo.Hoadonbo;
 
 /**
- * Servlet implementation class ttController
+ * Servlet implementation class xacnhanController
  */
-@WebServlet("/ttController")
-public class ttController extends HttpServlet {
+@WebServlet("/xacnhanController")
+public class xacnhanController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ttController() {
+    public xacnhanController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,21 +32,29 @@ public class ttController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		HttpSession session = request.getSession();
-		try {
-		if(session.getAttribute("gh")!=null) {
-			Giohangbo gh=(Giohangbo)session.getAttribute("gh");
-			Khachhangbean kh=(Khachhangbean)session.getAttribute("kh");
-			gh.addHD(gh, kh);
-			session.setAttribute("gh", null);
-			
-		}
-		RequestDispatcher rd= request.getRequestDispatcher("htgioController");
-		 rd.forward(request, response);
+		request.setCharacterEncoding("utf-8");
+	  	response.setCharacterEncoding("utf-8");
+	  	String mahd=request.getParameter("hd");
+	  	String ms=request.getParameter("ms");
+	  	Hoadonbo hdbo=new Hoadonbo();
+	  	
+	  	try {
+			if(mahd!=null&&ms!=null) {
+				System.out.println(mahd+" "+ms);
+				System.out.println("Xac nhan chi tiet hoa don");
+				hdbo.xacnhancthd(Long.parseLong(mahd), ms);
+			}
+			if(mahd!=null&&ms==null) {
+				System.out.println(mahd);
+				System.out.println("Xac nhan hoa don");
+				hdbo.xacnhanhd(Long.parseLong(mahd));
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
+	  	RequestDispatcher rd= request.getRequestDispatcher("qlhdController");
+		rd.forward(request, response);
 	}
 
 	/**

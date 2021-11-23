@@ -27,8 +27,9 @@ public class lichsudao {
     	int makh;
     	if (rs.next()) {
     		makh=rs.getInt(1);
-    		st=cn.prepareStatement("select * from hoadon where makh=?");
+    		st=cn.prepareStatement("select * from hoadon where makh=? and damua=?");
     		st.setInt(1, makh);
+    		st.setInt(2, 1);
     		rs=st.executeQuery();
     		while (rs.next()) {
     			System.out.println("Time: "+rs.getTimestamp(3));

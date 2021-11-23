@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"
     import="bo.Loaibo"
@@ -17,6 +18,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 </head>
 <body>
   <%
@@ -35,24 +37,21 @@
       <li><a <%if(kh==null){%> href="#" data-toggle="modal" data-target="#myModal" <% }else {%> href="lichsuController" <%} %>>Lịch sử mua hàng</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      
+      <!-- dung JSTL -->
       <li>
-      <%
-      
-      
-      if(kh!=null){
-    %>
-      <a href="#">Xin chào: <%=kh.getHoten()%> </a>
-      <li><a href="logoutController"> Đăng xuất</a></li>
-      <%} else { %>
-      <a href="#" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-log-in"></span> Đăng nhập</a></li>
-      <li><a href="#" data-toggle="modal" data-target="#myModal2"><span class="glyphicon glyphicon-user"></span> Đăng ký</a></li>
-      <%if(session.getAttribute("tb")!=null){
-		        	   out.print("<script>alert('"+session.getAttribute("tb")+"');</script>" );
-		        	   
-      }
-      	}
-     %>
+      <c:choose>
+         <c:when test="${sessionScope.kh!=null }">
+         <li><a href="#">Xin chào:${sessionScope.kh.getHoten() }</a></li>
+         <li><a href="logoutController"> Đăng xuất</a></li>
+        </c:when>
+          <c:otherwise>
+                 <li><a href="#" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-log-in"></span> Đăng nhập</a></li>
+		         <li><a href="#" data-toggle="modal" data-target="#myModal2"><span class="glyphicon glyphicon-user"></span> Đăng ký</a></li>
+		           <c:if test="${sessionScope.tb!=null }">
+		           		<script>alert('Dang nhap sai');</script>
+		           </c:if>
+  	      </c:otherwise>
+        </c:choose> 
     </ul>
   </div>
 </nav>

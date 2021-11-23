@@ -1,6 +1,7 @@
 package Controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,24 +9,20 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import bean.Khachhangbean;
-import bo.Giohangbo;
-
-
+import bean.Loaibean;
+import bo.Loaibo;
 
 /**
- * Servlet implementation class ttController
+ * Servlet implementation class qlloaiController
  */
-@WebServlet("/ttController")
-public class ttController extends HttpServlet {
+@WebServlet("/qlloaiController")
+public class qlloaiController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ttController() {
+    public qlloaiController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,17 +33,15 @@ public class ttController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		HttpSession session = request.getSession();
-		try {
-		if(session.getAttribute("gh")!=null) {
-			Giohangbo gh=(Giohangbo)session.getAttribute("gh");
-			Khachhangbean kh=(Khachhangbean)session.getAttribute("kh");
-			gh.addHD(gh, kh);
-			session.setAttribute("gh", null);
-			
-		}
-		RequestDispatcher rd= request.getRequestDispatcher("htgioController");
-		 rd.forward(request, response);
+		request.setCharacterEncoding("utf-8");
+	  	response.setCharacterEncoding("utf-8");
+	  	Loaibo lbo=new Loaibo();
+	  	ArrayList<Loaibean> dsloai;
+	  	try {
+			dsloai=lbo.getloai();
+			request.setAttribute("dsloai", dsloai);
+			RequestDispatcher rd= request.getRequestDispatcher("qlloai_admin.jsp");
+			 rd.forward(request, response);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();

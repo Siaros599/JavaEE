@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import bean.Khachhangbean;
+import bo.Adminbo;
 import bo.Khachhangbo;
 
 /**
@@ -38,10 +39,10 @@ public class dnhomeController extends HttpServlet {
 		String un=request.getParameter("txtun");
 		String pass=request.getParameter("txtpw");
 		Khachhangbo khbo=new Khachhangbo();
+		
 		Khachhangbean kh;
 		try {
-			kh = khbo.ktdn(un, pass);
-
+				kh = khbo.ktdn(un, pass);
 	     if(kh!=null){
 	    	 session.setAttribute("kh", kh);
 	    	 session.setAttribute("tb", null);
@@ -52,6 +53,7 @@ public class dnhomeController extends HttpServlet {
 	    	 RequestDispatcher rd= request.getRequestDispatcher("htsachController");
 			 rd.forward(request, response);
 	     }
+				
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
