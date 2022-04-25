@@ -15,26 +15,24 @@ import bo.Hoadonbo;
 public class Hoadondao {
 	public void getdata(ArrayList<Hoadonbo> hdbols) throws Exception {
 		Connection cn;
-		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-    	System.out.println("Da xac dinh HQTCSDL");
-    	//B2: Ket noi vao csdl
-    	String url="jdbc:sqlserver://localhost:1433;databaseName=QlSach;user=sa; password=123456";
+		Class.forName("com.mysql.cj.jdbc.Driver");
+    	String url="jdbc:mysql://localhost:3306/qlsach?user=root&password=123456";
     	cn=DriverManager.getConnection(url);
     	System.out.println("Da ket noi");
-    	PreparedStatement st=cn.prepareStatement("select hd.MaHoaDon,kh.hoten,hd.NgayMua,Sum(cthd.SoLuongMua) as TongSoLuong,Sum(sach.gia) as TongGia,Sum(cthd.SoLuongMua*sach.gia) as ThanhTien\r\n"
-    			+ "From hoadon as hd \r\n"
-    			+ "inner join ChiTietHoaDon as cthd on hd.MaHoaDon=cthd.MaHoaDon\r\n"
-    			+ "inner join KhachHang as kh on hd.makh=kh.makh\r\n"
-    			+ "inner join sach on cthd.MaSach=sach.masach\r\n"
-    			+ "where (hd.damua=0)\r\n"
+    	PreparedStatement st=cn.prepareStatement("select hd.MaHoaDon,kh.hoten,hd.NgayMua,Sum(cthd.SoLuongMua) as TongSoLuong,Sum(s.gia) as TongGia,Sum(cthd.SoLuongMua*s.gia) as ThanhTien\n"
+    			+ "From hoadon as hd\n"
+    			+ "inner join qlsach.chitiethoaDon as cthd on hd.MaHoaDon=cthd.MaHoaDon\n"
+    			+ "inner join qlsach.khachhang as kh on hd.makh=kh.makh\n"
+    			+ "inner join qlsach.sach as s on cthd.MaSach=s.masach\n"
+    			+ "where (hd.damua=0)\n"
     			+ "group by hd.MaHoaDon,kh.hoten,hd.NgayMua");
     	ResultSet rs=st.executeQuery();
     	while (rs.next()) {
     		Hoadonbo hdbo=new Hoadonbo();
     		hdbo.hd=new Hoadonbean(rs.getLong(1),rs.getString(2),rs.getTimestamp(3),rs.getLong(4),rs.getLong(5),rs.getLong(6));
     		long mahd=rs.getLong(1);
-    		PreparedStatement st1=cn.prepareStatement("select * from ChiTietHoaDon as cthd\r\n"
-    				+ "join sach on sach.masach=cthd.MaSach\r\n"
+    		PreparedStatement st1=cn.prepareStatement("select * from qlsach.chitiethoadon as cthd\n"
+    				+ "join qlsach.sach as sach on sach.masach=cthd.MaSach\n"
     				+ "where MaHoaDon=? and daMua=?");
     		st1.setLong(1, mahd);
     		st1.setInt(2, 0);
@@ -49,17 +47,15 @@ public class Hoadondao {
 	}
 	public void xacnhanhd(long mahd) throws Exception {
 		Connection cn;
-		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-    	System.out.println("Da xac dinh HQTCSDL");
-    	//B2: Ket noi vao csdl
-    	String url="jdbc:sqlserver://localhost:1433;databaseName=QlSach;user=sa; password=123456";
+		Class.forName("com.mysql.cj.jdbc.Driver");
+    	String url="jdbc:mysql://localhost:3306/qlsach?user=root&password=123456";
     	cn=DriverManager.getConnection(url);
     	System.out.println("Da ket noi");
-    	PreparedStatement st=cn.prepareStatement("update hoadon set damua=? where MaHoaDon=?");
+    	PreparedStatement st=cn.prepareStatement("update qlsach.hoadon set damua=? where MaHoaDon=?");
     	st.setInt(1, 1);
     	st.setLong(2, mahd);
     	st.executeUpdate();
-    	st=cn.prepareStatement("update ChiTietHoaDon set daMua=? where MaHoaDon=?");
+    	st=cn.prepareStatement("update qlsach.chitiethoadon set daMua=? where MaHoaDon=?");
     	st.setInt(1, 1);
     	st.setLong(2, mahd);
     	st.executeUpdate();
@@ -67,23 +63,21 @@ public class Hoadondao {
 	}
 	public void xacnhancthd(long mahd,String masach) throws Exception {
 		Connection cn;
-		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-    	System.out.println("Da xac dinh HQTCSDL");
-    	//B2: Ket noi vao csdl
-    	String url="jdbc:sqlserver://localhost:1433;databaseName=QlSach;user=sa; password=123456";
+		Class.forName("com.mysql.cj.jdbc.Driver");
+    	String url="jdbc:mysql://localhost:3306/qlsach?user=root&password=123456";
     	cn=DriverManager.getConnection(url);
     	System.out.println("Da ket noi");
-    	PreparedStatement st=cn.prepareStatement("update ChiTietHoaDon set daMua=? where MaHoaDon=? and MaSach=?");
+    	PreparedStatement st=cn.prepareStatement("update qlsach.chitiethoadon set daMua=? where MaHoaDon=? and MaSach=?");
     	st.setInt(1, 1);
     	st.setLong(2, mahd);
     	st.setString(3, masach);
     	st.executeUpdate();
-    	st=cn.prepareStatement("Select * from ChiTietHoaDon where MaHoaDon=? and daMua=?");
+    	st=cn.prepareStatement("Select * from qlsach.chitiethoadon where MaHoaDon=? and daMua=?");
     	st.setLong(1, mahd);
     	st.setInt(2, 0);
     	ResultSet rs=st.executeQuery();
     	if(!rs.next()) {
-    		st=cn.prepareStatement("update hoadon set damua=? where MaHoaDon=?");
+    		st=cn.prepareStatement("update qlsach.hoadon set damua=? where MaHoaDon=?");
         	st.setInt(1, 1);
         	st.setLong(2, mahd);
         	st.executeUpdate();
@@ -92,13 +86,11 @@ public class Hoadondao {
 	}
 	public void xoahd(long mahd) throws Exception {
 		Connection cn;
-		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-    	System.out.println("Da xac dinh HQTCSDL");
-    	//B2: Ket noi vao csdl
-    	String url="jdbc:sqlserver://localhost:1433;databaseName=QlSach;user=sa; password=123456";
+		Class.forName("com.mysql.cj.jdbc.Driver");
+    	String url="jdbc:mysql://localhost:3306/qlsach?user=root&password=123456";
     	cn=DriverManager.getConnection(url);
     	System.out.println("Da ket noi");
-    	PreparedStatement st=cn.prepareStatement("delete from hoadon where MaHoaDon=?");
+    	PreparedStatement st=cn.prepareStatement("delete from qlsach.hoadon where MaHoaDon=?");
     	st.setLong(1, mahd);
     	st.executeUpdate();
     	cn.close();

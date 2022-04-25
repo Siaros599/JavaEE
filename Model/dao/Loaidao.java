@@ -19,15 +19,13 @@ public class Loaidao {
 //		ds.add(new Loaibean("luat", "Luật học"));
 //		ds.add(new Loaibean("va", "Văn học"));
 		Connection cn;
-		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-    	System.out.println("Da xac dinh HQTCSDL");
-    	//B2: Ket noi vao csdl
-    	String url="jdbc:sqlserver://localhost:1433;databaseName=QlSach;user=sa; password=123456";
+		Class.forName("com.mysql.cj.jdbc.Driver");
+    	String url="jdbc:mysql://localhost:3306/qlsach?user=root&password=123456";
     	cn=DriverManager.getConnection(url);
     	System.out.println("Da ket noi");
     	Statement st=cn.createStatement();
     	ResultSet rs;
-    	rs=st.executeQuery("use QlSach Select * From loai order by maloai asc");
+    	rs=st.executeQuery("Select * From qlsach.loai order by maloai asc");
     	while(rs.next()) {
     		ds.add(new Loaibean(rs.getString(1),rs.getString(2)));
     	}
@@ -36,17 +34,15 @@ public class Loaidao {
 	}
 	public void addloai(String maloai,String tenloai) throws Exception {
 		Connection cn;
-		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-    	System.out.println("Da xac dinh HQTCSDL");
-    	//B2: Ket noi vao csdl
-    	String url="jdbc:sqlserver://localhost:1433;databaseName=QlSach;user=sa; password=123456";
+		Class.forName("com.mysql.cj.jdbc.Driver");
+    	String url="jdbc:mysql://localhost:3306/qlsach?user=root&password=123456";
     	cn=DriverManager.getConnection(url);
     	System.out.println("Da ket noi");
-    	PreparedStatement st=cn.prepareStatement("select * from loai where maloai=?");
+    	PreparedStatement st=cn.prepareStatement("select * from qlsach.loai where maloai=?");
     	st.setString(1, maloai);
     	ResultSet rs=st.executeQuery();
     	if(!rs.next()) {
-    		st=cn.prepareStatement("insert into loai values (?,?)");
+    		st=cn.prepareStatement("insert into qlsach.loai values (?,?)");
         	st.setString(1,maloai);
         	st.setString(2, tenloai);
         	st.executeUpdate();
@@ -55,13 +51,11 @@ public class Loaidao {
 	}
 	public void editloai(String maloai,String tenloai) throws Exception {
 		Connection cn;
-		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-    	System.out.println("Da xac dinh HQTCSDL");
-    	//B2: Ket noi vao csdl
-    	String url="jdbc:sqlserver://localhost:1433;databaseName=QlSach;user=sa; password=123456";
+		Class.forName("com.mysql.cj.jdbc.Driver");
+    	String url="jdbc:mysql://localhost:3306/qlsach?user=root&password=123456";
     	cn=DriverManager.getConnection(url);
     	System.out.println("Da ket noi");
-    	PreparedStatement st=cn.prepareStatement("update loai set tenloai=? where maloai=?");
+    	PreparedStatement st=cn.prepareStatement("update qlsach.loai set tenloai=? where maloai=?");
     	st.setString(1, tenloai);
     	st.setString(2, maloai);
     	st.executeUpdate();
@@ -69,17 +63,15 @@ public class Loaidao {
 	}
 	public void deleteloai(String maloai) throws Exception {
 		Connection cn;
-		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-    	System.out.println("Da xac dinh HQTCSDL");
-    	//B2: Ket noi vao csdl
-    	String url="jdbc:sqlserver://localhost:1433;databaseName=QlSach;user=sa; password=123456";
+		Class.forName("com.mysql.cj.jdbc.Driver");
+    	String url="jdbc:mysql://localhost:3306/qlsach?user=root&password=123456";
     	cn=DriverManager.getConnection(url);
     	System.out.println("Da ket noi");
-    	PreparedStatement st=cn.prepareStatement("update sach set maloai=? where maloai=?");
+    	PreparedStatement st=cn.prepareStatement("update qlsach.sach set maloai=? where maloai=?");
     	st.setString(1, null);
     	st.setString(2, maloai);
     	st.executeUpdate();
-    	st=cn.prepareStatement("delete from loai where maloai=?");
+    	st=cn.prepareStatement("delete from qlsach.loai where maloai=?");
     	st.setString(1, maloai);
     	st.executeUpdate();
     	cn.close();

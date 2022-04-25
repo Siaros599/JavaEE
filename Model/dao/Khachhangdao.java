@@ -15,15 +15,13 @@ public class Khachhangdao {
 	public ArrayList<Khachhangbean> getKhachHang() throws Exception{
 		ArrayList<Khachhangbean> ds= new ArrayList<Khachhangbean>();
 		Connection cn;
-		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-    	System.out.println("Da xac dinh HQTCSDL");
-    	//B2: Ket noi vao csdl
-    	String url="jdbc:sqlserver://localhost:1433;databaseName=QlSach;user=sa; password=123456";
+		Class.forName("com.mysql.cj.jdbc.Driver");
+    	String url="jdbc:mysql://localhost:3306/qlsach?user=root&password=123456";
     	cn=DriverManager.getConnection(url);
     	System.out.println("Da ket noi");
     	Statement st=cn.createStatement();
     	ResultSet rs;
-    	rs=st.executeQuery("use QlSach Select * From KhachHang");
+    	rs=st.executeQuery("Select * From qlsach.khachhang");
     	while(rs.next()) {
     		ds.add(new Khachhangbean(md5.getMd5(rs.getString(6)),rs.getString(2),rs.getString(3),md5.getMd5(rs.getString(7))));
     	}
@@ -32,13 +30,11 @@ public class Khachhangdao {
 	}
 	public Khachhangbean ktdn(String un, String pass) throws Exception {
 		Connection cn;
-		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-    	System.out.println("Da xac dinh HQTCSDL");
-    	//B2: Ket noi vao csdl
-    	String url="jdbc:sqlserver://localhost:1433;databaseName=QlSach;user=sa; password=123456";
+		Class.forName("com.mysql.cj.jdbc.Driver");
+    	String url="jdbc:mysql://localhost:3306/qlsach?user=root&password=123456";
     	cn=DriverManager.getConnection(url);
     	System.out.println("Da ket noi");
-    	PreparedStatement st=cn.prepareStatement("use QlSach Select * From KhachHang where tendn=? and pass=?");
+    	PreparedStatement st=cn.prepareStatement("Select * From qlsach.khachhang where tendn=? and pass=?");
     	st.setString(1, un);
     	st.setString(2, pass);
     	ResultSet rs;
@@ -55,18 +51,16 @@ public class Khachhangdao {
 	}
 	public void add(String name,String un,String pass,String repass, String email,String address,String phone) throws Exception{
 		Connection cn;
-		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-    	System.out.println("Da xac dinh HQTCSDL");
-    	//B2: Ket noi vao csdl
-    	String url="jdbc:sqlserver://localhost:1433;databaseName=QlSach;user=sa; password=123456";
+		Class.forName("com.mysql.cj.jdbc.Driver");
+    	String url="jdbc:mysql://localhost:3306/qlsach?user=root&password=123456";
     	cn=DriverManager.getConnection(url);
     	System.out.println("Da ket noi");
-    	PreparedStatement st=cn.prepareStatement("use QlSach Select * From KhachHang where tendn=?");
+    	PreparedStatement st=cn.prepareStatement("Select * From qlsach.khachhang where tendn=?");
     	st.setString(1, un);
     	ResultSet rs;
     	rs=st.executeQuery();
     	if(!rs.next()&&pass.equals(repass)) {
-    		PreparedStatement st1=cn.prepareStatement("insert into KhachHang values (?,?,?,?,?,?)");
+    		PreparedStatement st1=cn.prepareStatement("insert into qlsach.khachhang (hoten,diachi,sodt,email,tendn,pass) values (?,?,?,?,?,?)");
     		st1.setString(1, name);
     		st1.setString(2, address);
     		st1.setString(3, phone);

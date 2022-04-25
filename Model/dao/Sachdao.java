@@ -18,15 +18,13 @@ public class Sachdao {
 //		ds.add(new Sachbean("s33", "lập trình Java3", "Quách Tuấn Ngọc", (long)120000, (long)1000,"image_sach/b24.jpg", "cntt"));
 //		ds.add(new Sachbean("s4", "Đại chất công trình", "Đỗ Ngọc", (long)120000, (long)1000,"image_sach/b16.jpg", "luat"));
 //		ds.add(new Sachbean("s5", "Bản đồ", "Đỗ Ngọc", (long)120000, (long)1000,"image_sach/b11.jpg", "va"));
-		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-    	System.out.println("Da xac dinh HQTCSDL");
-    	//B2: Ket noi vao csdl
-    	String url="jdbc:sqlserver://localhost:1433;databaseName=QlSach;user=sa; password=123456";
+		Class.forName("com.mysql.cj.jdbc.Driver");
+    	String url="jdbc:mysql://localhost:3306/qlsach?user=root&password=123456";
     	cn=DriverManager.getConnection(url);
     	System.out.println("Da ket noi");
     	Statement st=cn.createStatement();
     	ResultSet rs;
-    	rs=st.executeQuery("use QlSach Select * From sach where anh is not null");
+    	rs=st.executeQuery("Select * From qlsach.sach where anh is not null");
     	while(rs.next()) {
 				ds.add(new Sachbean(rs.getString(1),rs.getString(2),rs.getString(9),rs.getLong(4),rs.getLong(3),rs.getTimestamp(8),rs.getString(7),rs.getString(5)));
 			
@@ -36,19 +34,18 @@ public class Sachdao {
 	}	
 	public void addSach(String masach,String tensach,String tacgia,long gia,long soluong,String anh,String maloai) throws Exception {
 		Connection cn;
-		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-    	System.out.println("Da xac dinh HQTCSDL");
-    	String url="jdbc:sqlserver://localhost:1433;databaseName=QlSach;user=sa; password=123456";
+		Class.forName("com.mysql.cj.jdbc.Driver");
+    	String url="jdbc:mysql://localhost:3306/qlsach?user=root&password=123456";
     	cn=DriverManager.getConnection(url);
     	System.out.println("Da ket noi");
     	java.util.Date javaDate = new java.util.Date();
 	    long javaTime = javaDate.getTime();
 	  	Timestamp timenhap=new java.sql.Timestamp(javaTime);
-    	PreparedStatement st=cn.prepareStatement("select * from sach where masach=?");
+    	PreparedStatement st=cn.prepareStatement("select * from qlsach.sach where masach=?");
     	st.setString(1, masach);
     	ResultSet rs=st.executeQuery();
     	if(!rs.next()) {
-    		st=cn.prepareStatement("insert into sach values(?,?,?,?,?,?,?,?,?)");
+    		st=cn.prepareStatement("insert into qlsach.sach values(?,?,?,?,?,?,?,?,?)");
     		st.setString(1, masach);
     		st.setString(2, tensach);
     		st.setLong(3, soluong);
@@ -64,12 +61,11 @@ public class Sachdao {
 	}
 	public void editSach(String masach,String tensach,String tacgia,long gia,long soluong,Timestamp ngaynhap,String anh,String maloai) throws Exception {
 		Connection cn;
-		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-    	System.out.println("Da xac dinh HQTCSDL");
-    	String url="jdbc:sqlserver://localhost:1433;databaseName=QlSach;user=sa; password=123456";
+		Class.forName("com.mysql.cj.jdbc.Driver");
+    	String url="jdbc:mysql://localhost:3306/qlsach?user=root&password=123456";
     	cn=DriverManager.getConnection(url);
     	System.out.println("Da ket noi");
-    	PreparedStatement st=cn.prepareStatement("update sach set tensach=?,soluong=?,gia=?,maloai=?,anh=?,NgayNhap=?,tacgia=? where masach=?");
+    	PreparedStatement st=cn.prepareStatement("update qlsach.sach set tensach=?,soluong=?,gia=?,maloai=?,anh=?,NgayNhap=?,tacgia=? where masach=?");
     	st.setString(1, tensach);
     	st.setLong(2, soluong);
     	st.setLong(3, gia);
@@ -83,12 +79,11 @@ public class Sachdao {
 	}
 	public void deleteSach(String masach) throws Exception {
 		Connection cn;
-		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-    	System.out.println("Da xac dinh HQTCSDL");
-    	String url="jdbc:sqlserver://localhost:1433;databaseName=QlSach;user=sa; password=123456";
+		Class.forName("com.mysql.cj.jdbc.Driver");
+    	String url="jdbc:mysql://localhost:3306/qlsach?user=root&password=123456";
     	cn=DriverManager.getConnection(url);
     	System.out.println("Da ket noi");
-    	PreparedStatement st=cn.prepareStatement("delete from sach where masach=?");
+    	PreparedStatement st=cn.prepareStatement("delete from qlsach.sach where masach=?");
     	st.setString(1, masach);
     	st.executeUpdate();
     	cn.close();
